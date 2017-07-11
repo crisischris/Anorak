@@ -23,7 +23,7 @@ public class locomotion : MonoBehaviour {
                 }
                if (transform.position.z < 0)
         {
-            speed = 5;
+            speed = 5; 
         }
         }
 
