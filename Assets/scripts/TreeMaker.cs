@@ -6,25 +6,52 @@ public class TreeMaker : MonoBehaviour {
 
 
     public GameObject Tree;
-    public GameObject Origin;
     private GameObject TreeInstance;
+    public float speed = 2f;
 
 
-	// Use this for initialization
-	void Start () {
+    
+   
 
-       TreeInstance =  GameObject.Instantiate(Tree, new Vector3(7, 1, 20), Quaternion.identity);
+    
+
+    // Use this for initialization
+    void Start () {
+
+    var xPos = Random.Range(-5, 15);
+    var yPos = Random.Range(1.5f, 2);
+    var zPos = Random.Range(20, 40);
+       
+
        
 
 
-    }
-	
-	// Update is called once per frame
-	void Update () {
+        TreeInstance = GameObject.Instantiate(Tree, new Vector3(xPos, yPos, zPos), Quaternion.identity);
 
-        if (Origin.transform.position.z > 30)
+
+    }
+
+    // Update is called once per frame
+    void Update () {
+
+       
+        var pos = TreeInstance.transform.position.z;
+
+        if (TreeInstance.transform.position.z > -20)
+
+        {          
+            TreeInstance.transform.Translate(new Vector3(0, 0, speed * -Time.deltaTime));       
+        }
+
+        print("the position of TreeInstance =" + pos);
+
+        
+        if (TreeInstance.transform.position.z < -20)
         {
             Destroy(TreeInstance);
         }
+
+       
+
     }
 }
