@@ -6,49 +6,79 @@ public class TreeMaker : MonoBehaviour {
 
 
     public GameObject Tree;
-    private GameObject TreeInstance;
+	private List<GameObject> Forest = new List<GameObject>();
     public float speed = 2f;
-	private bool objectdestroyed;
-
-
-    
-   
-
-    
+	private float timeTracker = 0;
+	private float targetSpawnTime = 0;
+	private int numberOfTreesToSpawnInitially = 7;
 
     // Use this for initialization
     void Start () {
-
-	    var xPos = Random.Range(-5, 15);
-	    var yPos = Random.Range(1.5f, 2);
-	    var zPos = Random.Range(20, 40);
-       
-        TreeInstance = GameObject.Instantiate(Tree, new Vector3(xPos, yPos, zPos), Quaternion.identity);
-		objectdestroyed = false;
-
+		for (int index = 0; index < numberOfTreesToSpawnInitially; index++) {
+			spawnTree ();
+		}
     }
 
     // Update is called once per frame
     void Update () {
 
-		if (!objectdestroyed) {
-			moveTree ();
+		timeTracker += Time.deltaTime;
+
+		for (int indexOfForestList = 0; indexOfForestList < Forest.Count; indexOfForestList++) {
+			moveTree (Forest[indexOfForestList], indexOfForestList);
+			checkTreeForDestruction (Forest [indexOfForestList]);
 		}
-			
-		if (!objectdestroyed && TreeInstance.transform.position.z < -20)
-        {
-            Destroy(TreeInstance);
-			objectdestroyed = true;
-        }
+
+		if (spawnObjectRate ()) {
+			int randomNumberToSpawn = Random.Range (10, 30);
+			for (int index = 0; index < randomNumberToSpawn; index++) {
+				spawnTree ();
+			}
+		}
+
     }
 
-	void moveTree() {
-		var pos = TreeInstance.transform.position.z;
-
-		if (TreeInstance.transform.position.z > -20) {          
-			TreeInstance.transform.Translate (new Vector3 (0, 0, speed * -Time.deltaTime));       
+	bool spawnObjectRate() {
+		if (timeTracker >= targetSpawnTime) {
+			targetSpawnTime = Random.Range (1, 3);
+			timeTracker = 0;
+			return true;
 		}
 
-		print ("the position of TreeInstance =" + pos);
+		return false;
+	}
+
+	void checkTreeForDestruction(GameObject treeToCheck) {
+		if (treeToCheck.transform.position.z < -20)
+		{
+			int treeNumber = Forest.IndexOf (treeToCheck);
+			GameObject treeToRemove = treeToCheck;
+			Forest.Remove (treeToCheck);
+			Destroy (treeToRemove);
+			print ("Tree #" + treeNumber + " destroyed.");
+		}
+	}
+
+	void spawnTree() {
+		var xPos = Random.Range(-50, 50);
+		var yPos = Random.Range(1.5f, 2);
+		var zPos = Random.Range(20, 40);
+
+		GameObject newTree;
+
+		newTree = GameObject.Instantiate(Tree, new Vector3(xPos, yPos, zPos), Quaternion.identity);
+		Forest.Add (newTree);
+
+		print ("Tree #" + Forest.Count + " created.");
+	}
+
+	void moveTree(GameObject inputTree, int treeNumber) {
+		var pos = inputTree.transform.position.z;
+
+		if (inputTree.transform.position.z > -20) {          
+			inputTree.transform.Translate (new Vector3 (0, 0, speed * -Time.deltaTime));       
+		}
+
+//		print ("Position of Tree #" + treeNumber + " = " + pos);
 	}
 }
