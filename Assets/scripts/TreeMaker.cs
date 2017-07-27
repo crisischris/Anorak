@@ -20,7 +20,7 @@ public class TreeMaker : MonoBehaviour {
     void Start () {
 
 	    var xPos = Random.Range(-5, 15);
-	    var yPos = Random.Range(1.5f, 2);
+	    var yPos = 0;
 	    var zPos = Random.Range(20, 40);
        
         TreeInstance = GameObject.Instantiate(Tree, new Vector3(xPos, yPos, zPos), Quaternion.identity);

@@ -5,19 +5,19 @@ licenseType: Free
 SketchUpImporter:
   generateBackFace: 0
   mergeCoplanarFaces: 0
-  selectedNodes: 000000000100000002000000
+  selectedNodes: 0000000001000000
   assetHash:
     serializedVersion: 2
-    Hash: c2571a3226080c91763b811f9a1abb1e
+    Hash: b5681547f941813769aa087b7ffa1c72
   longitude: -105.242139
   latitude: 40.018309
   northCorrection: -0
   fileUnit: 0
   sketchUpImportData:
     defaultCamera:
-      position: {x: 8.597087, y: 5.215119, z: 3.6893802}
-      lookAt: {x: 6.7624817, y: 4.4533224, z: 3.2122488}
-      up: {x: -0.3608801, y: 0.9278776, z: -0.0938552}
+      position: {x: -3.954857, y: 9.711253, z: -16.256779}
+      lookAt: {x: 1.7606324, y: 4.847897, z: -4.549276}
+      up: {x: 0.15342495, y: 0.93685293, z: 0.31427282}
       fov: 35
       aspectRatio: 0
       orthoSize: 1
@@ -27,11 +27,21 @@ SketchUpImporter:
   fileIDToRecycleName:
     100000: Group 1
     100002: //RootNode
+    100004: Group 2
+    100006: wallZX
     400000: Group 1
     400002: //RootNode
+    400004: Group 2
+    400006: wallZX
     2300000: Group 1
+    2300002: Group 2
+    2300004: //RootNode
     3300000: Group 1
+    3300002: Group 2
+    3300004: //RootNode
     4300000: Mesh Group 1
+    4300002: Mesh Group 2
+    4300004: Mesh wallXZ
   materials:
     importMaterials: 1
     materialName: 2
