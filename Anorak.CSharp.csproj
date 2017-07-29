@@ -201,6 +201,7 @@
     <Compile Include="Assets\scripts\FlipNormals.cs" />
     <Compile Include="Assets\scripts\TreeMaker.cs" />
     <Compile Include="Assets\scripts\flick.cs" />
+    <Compile Include="Assets\scripts\fling.cs" />
     <Compile Include="Assets\scripts\locomotion.cs" />
   </ItemGroup>
   <ItemGroup>
