@@ -12,7 +12,7 @@ public class locomotion : MonoBehaviour {
            
         transform.Translate(Vector3.forward * Time.deltaTime*speed, Space.World);
 
-        if (transform.position.z > 40) {
+        if (transform.position.z > 45) {
 
            speed = 0;
         }
