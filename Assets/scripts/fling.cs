@@ -19,7 +19,7 @@ public class fling : MonoBehaviour {
 
 // Update is called once per frame
     void Update () {
-        if (isClicked == true && transform.position.y <= 0)
+        if (isClicked == true && transform.position.y <= 0 || transform.position.y >= 150 || transform.position.z >= 150)
         {
                 Destroy(main);
                 print("destroyed!");

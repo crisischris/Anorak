@@ -203,6 +203,7 @@
     <Compile Include="Assets\scripts\flick.cs" />
     <Compile Include="Assets\scripts\fling.cs" />
     <Compile Include="Assets\scripts\locomotion.cs" />
+    <Compile Include="Assets\scripts\resetScene.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\GoogleVR\Demos\Environment\DemoEnvUnlitGrayscale.shader" />
