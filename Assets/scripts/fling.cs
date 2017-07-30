@@ -5,85 +5,48 @@ using UnityEngine;
 public class fling : MonoBehaviour {
 
     bool isClicked = false;
-    public float vel = 500;
+    public float vel;
     public GameObject main;
     public Rigidbody rb;
-    public Material red;
+    public Material defaultMat;
 
-
-    // Use this for initialization
-    void Start ()
-    {
-
-        // newcube = GameObject.Instantiate(main, new Vector3(0, .5f, 3), Quaternion.identity);
+// Use this for initialization
+    void Start () {
+                
         rb = GetComponent<Rigidbody>();
-
     }
-
-
-    void FixedUpdate()
-    {
-       // if (isClicked == true)
-        //{
-          //  rb.AddForce(transform.up * 10);
-            //rb.useGravity = true;
-
-           // if (isClicked == true && main.transform.position.x > 150 || main.transform.position.z > 150 || main.transform.position.y > 150)
-           // {
-           //     Destroy(main);
-           //     GameObject.Instantiate(main, new Vector3(0, .5f, 3), Quaternion.identity);
-           //     isClicked = false;
-                            }
         
-    
-
 
 // Update is called once per frame
-void Update ()
-    {
-		/*if(isClicked == true)
-    {
-            
-            main.transform.Translate(Vector3.forward * (Time.deltaTime * vel));
-            main.transform.Translate(Vector3.right * (Time.deltaTime * vel));
-            main.transform.Translate(Vector3.up * (Time.deltaTime * vel));
-
-            if (isClicked == true && main.transform.position.x > 150 || main.transform.position.z > 150 || main.transform.position.y > 150)
-            {
+    void Update () {
+        if (isClicked == true && transform.position.y <= 0)
+        {
                 Destroy(main);
-                GameObject.Instantiate(main, new Vector3(0, .5f, 3), Quaternion.identity);
+                print("destroyed!");
                 isClicked = false;
-
             }
         }
-        */
 
-        if(transform.position.x > 150)
-        {
-            Destroy(main);
-            print("destroyed!");
+    
 
-        }
+    public void Clicked() {
 
-    }
-
-    public void Clicked()
-    {
-
-        Vector3 randomDirection = new Vector3(Random.Range(.5f,1), Random.Range(.5f, 1), Random.Range(.5f, 1));
-
-        GetComponent<Renderer>().material =  red;
-
-        //Vector3 direction = Random.insideUnitSphere;
-        rb.AddForce(randomDirection * vel);
-          //  rb.AddForce(transform.right * vel);
+        Vector3 randomDirection = new Vector3(Random.value, Random.value, Random.value);
+        
+            rb.AddForce(randomDirection * vel);
             rb.useGravity = true;
             isClicked = true;
             print("clicked!");
-        print(randomDirection);
+            print(randomDirection);
+        
+    }
+
+    public void IsGazed() {
+                GetComponent<Renderer>().material.color  =  Color.red;
+    }
 
 
-       
-
+    public void IsNotGazed() {
+        GetComponent<Renderer>().material = defaultMat;
     }
 }
