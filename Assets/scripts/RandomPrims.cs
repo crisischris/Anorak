@@ -25,17 +25,30 @@ public class RandomPrims : MonoBehaviour {
     GameObject applyColor(GameObject primitiveToApply)
     {
         Renderer objectRenderer = primitiveToApply.GetComponentInChildren<Renderer>();
-        objectRenderer.material.color = Color.blue * Random.value;
+        objectRenderer.material.color = Color.yellow * Random.value;
         return primitiveToApply;
     }
      
     void Start() {
 
         myNodes = new ArrayList();
-        createPrimitiveObject(PrimitiveType.Cube);
-        createPrimitiveObject(PrimitiveType.Sphere);
-        createPrimitiveObject(PrimitiveType.Cylinder);
-        createPrimitiveObject(PrimitiveType.Capsule);
-        createPrimitiveObject(PrimitiveType.Quad);
+        for (int i = 0; i < 10; i++) {
+            createRandomPrimitive();
+        }
     }
-}
+
+    void createRandomPrimitive()
+    {
+        List<PrimitiveType>listOfPrimitives = new List<PrimitiveType>();
+
+        listOfPrimitives.Add(PrimitiveType.Cube);
+        listOfPrimitives.Add(PrimitiveType.Sphere);
+        listOfPrimitives.Add(PrimitiveType.Cylinder);
+        listOfPrimitives.Add(PrimitiveType.Capsule);
+        
+        int randomListIndex = Random.Range(0, listOfPrimitives.Count);
+        PrimitiveType randomType = listOfPrimitives[randomListIndex];
+
+        createPrimitiveObject(randomType);
+       }
+}        
