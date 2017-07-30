@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class RandomPrims : MonoBehaviour {
 
-    public GameObject primitiveToApply;
-    public float speed = 2f;
     private bool objectdestroyed;
     private ArrayList myNodes;
 
@@ -22,11 +20,11 @@ public class RandomPrims : MonoBehaviour {
 
     }
 
-    GameObject applyColor(GameObject primitiveToApply)
+    GameObject applyColor(GameObject primitiveObject)
     {
-        Renderer objectRenderer = primitiveToApply.GetComponentInChildren<Renderer>();
+        Renderer objectRenderer = primitiveObject.GetComponentInChildren<Renderer>();
         objectRenderer.material.color = Color.yellow * Random.value;
-        return primitiveToApply;
+        return primitiveObject;
     }
      
     void Start() {
