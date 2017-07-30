@@ -9,12 +9,7 @@ public class TreeMaker : MonoBehaviour {
     private GameObject TreeInstance;
     public float speed = 2f;
 	private bool objectdestroyed;
-
-
-    
-   
-
-    
+     
 
     // Use this for initialization
     void Start () {
