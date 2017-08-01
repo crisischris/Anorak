@@ -9,13 +9,12 @@ public class TreeMaker : MonoBehaviour {
     private GameObject TreeInstance;
     public float speed = 2f;
 	private bool objectdestroyed;
-     
 
     // Use this for initialization
     void Start () {
 
 	    var xPos = Random.Range(-5, 15);
-	    var yPos = 0;
+	    var yPos = Random.Range(1.5f, 2);
 	    var zPos = Random.Range(20, 40);
        
         TreeInstance = GameObject.Instantiate(Tree, new Vector3(xPos, yPos, zPos), Quaternion.identity);
