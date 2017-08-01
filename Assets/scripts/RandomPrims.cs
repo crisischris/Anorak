@@ -20,6 +20,7 @@ public class RandomPrims : MonoBehaviour
 		applyPhysics (primitiveObject);
 		addFlingScript (primitiveObject);
 		addEventTriggers (primitiveObject);
+		applyTimeControllerScript (primitiveObject);
 		myNodes.Add (primitiveObject);
 	}
 
@@ -33,6 +34,10 @@ public class RandomPrims : MonoBehaviour
 	{
 		Rigidbody gameObjectsRigidBody = primitiveObject.AddComponent<Rigidbody> ();
 		gameObjectsRigidBody.mass = 1;
+	}
+
+	void applyTimeControllerScript (GameObject primitiveObject) {
+		primitiveObject.AddComponent<TimeController> ();
 	}
 
 	void addFlingScript (GameObject primitiveObject)

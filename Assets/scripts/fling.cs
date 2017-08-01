@@ -25,8 +25,11 @@ public class fling : MonoBehaviour
 	void Update ()
 	{
 		if (isClicked == true && transform.position.y <= 0 || transform.position.y >= 150 || transform.position.z >= 150) {
-			Destroy (main);
-			print ("destroyed!");
+			main.GetComponent<Renderer>().enabled = false;;
+			rb.velocity = Vector3.zero;
+			rb.angularVelocity = Vector3.zero;
+			rb.useGravity = false;
+			print ("Frozen and hidden!");
 			isClicked = false;
 		}
 	}
@@ -42,7 +45,6 @@ public class fling : MonoBehaviour
 		ClickedSound.playClip ();
 		print ("clicked!" + main.gameObject);
 		print (randomDirection);
-        
 	}
 
 	public void IsGazed (BaseEventData eventData)
