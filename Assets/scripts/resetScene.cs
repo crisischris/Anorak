@@ -19,7 +19,7 @@ public class resetScene : MonoBehaviour {
     {
 
         print("loading");
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
 
     }
 
