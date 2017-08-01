@@ -1,10 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GVR.Input;
-using GVR.Events;
 using UnityEngine.EventSystems;
-using NUnit.Framework.Internal;
 
 public class TimeController : MonoBehaviour
 {

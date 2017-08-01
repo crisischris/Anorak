@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using UnityEngine;
-using GVR.Input;
 
 public class RandomPrims : MonoBehaviour
 {

@@ -15,7 +15,7 @@ public class fling : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		ClickedSound = new AudioManager ();
+		ClickedSound = gameObject.AddComponent<AudioManager>();
 		ClickedSound.soundBite =  gameObject.AddComponent<AudioSource> ();;
 		ClickedSound.intializeClip ();
     }
