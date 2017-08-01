@@ -10,16 +10,14 @@ public class fling : MonoBehaviour
 	public float vel;
 	public GameObject main;
 	public Rigidbody rb;
-    AudioSource ClickedSound;
+	AudioManager ClickedSound;
 
 	// Use this for initialization
 	void Start ()
 	{
-
-     
-
-
-
+		ClickedSound = new AudioManager ();
+		ClickedSound.soundBite =  gameObject.AddComponent<AudioSource> ();;
+		ClickedSound.intializeClip ();
     }
         
 
@@ -41,6 +39,7 @@ public class fling : MonoBehaviour
 		rb.AddForce (randomDirection * vel);
 		rb.useGravity = true;
 		isClicked = true;
+		ClickedSound.playClip ();
 		print ("clicked!" + main.gameObject);
 		print (randomDirection);
         
