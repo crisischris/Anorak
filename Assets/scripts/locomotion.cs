@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class locomotion : MonoBehaviour {
 
@@ -22,5 +23,7 @@ public class locomotion : MonoBehaviour {
            speed = 0; 
         }
    }
+
+
 }
 

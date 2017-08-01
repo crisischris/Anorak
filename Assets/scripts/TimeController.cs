@@ -1,35 +1,52 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GVR.Input;
+using GVR.Events;
+using UnityEngine.EventSystems;
+using NUnit.Framework.Internal;
 
-public class TimeController : MonoBehaviour {
+public class TimeController : MonoBehaviour
+{
 
 	//	This is our 'rewind' properties.
-	public List<ObjectState> ObjectStates;
-	public int keyframeSampleRate = 4;
-	public float maxRewindTimeInSec = 15.0f;
+	public int keyframeSampleRate = 8;
+	public int rewindFrameSampleRate = 10;
+	public float maxRewindTimeInSec = 60.0f;
 
 	//	These are private, helper variables. These are NOT meant to be seen outside this class.
+	private List<ObjectState> ObjectStates;
 	private bool isRewinding = false;
-	private float keyFrameCounter = 0; 
+	private float keyFrameCounter = 0;
+	private float slowdown = 0;
+	private float slowdown_t = 0;
 
-	//	Start is used to initialize the beginning of the script. 
-	void Start () {
+	//	Start is used to initialize the beginning of the script.
+	void Start ()
+	{
 		//	We must instantiate an empty list of ObjectState and store it
 		//		in ObjectStates in order to use it. 
 		ObjectStates = new List<ObjectState> ();
+		addEventTriggers ();
 	}
+
 
 	// Update is called once per frame
-	void Update () {
-		if (Input.GetKeyDown (KeyCode.Space)) {
-			startRewind ();
-		} else {
-			stopRewind ();
-		}
+	void Update ()
+	{
+	
 	}
 
-	//	There's a lot of stuff going on here. 
+	void addEventTriggers ()
+	{
+		GvrPointerInputModule globalInputModule = (GvrPointerInputModule) FindObjectOfType(typeof(GvrPointerInputModule));
+		globalInputModule.EventExecutor.OnPointerDown += startRewind;
+		globalInputModule.EventExecutor.OnPointerUp += stopRewind;
+	}
+
+
+
+	//	There's a lot of stuff going on here.
 	void FixedUpdate ()
 	{
 		//	If isRewinding is true, we're going to start rewinding. 
@@ -45,18 +62,21 @@ public class TimeController : MonoBehaviour {
 			sampleRecord ();
 		}
 	}
-		
-	public void interpolatedRewind() {
+
+	public void interpolatedRewind ()
+	{
 
 		//	This value is pretty important. From this value, we're trying to figure out
 		//		a specific value in between the first and second Object State.
 		//		Ex. What is the Object State that is 1/5 of the transition between
 		//		Object State 1 and Object State 2? 
 
-		float frameDerivedInterpolation =  keyFrameCounter / keyframeSampleRate;
-
-		if (ObjectStates.Count > 1)
-		{
+		slowdown = Mathf.Lerp (0, 1, slowdown_t);
+		float frameDerivedInterpolation = slowdown;
+	
+		if (ObjectStates.Count > 1) {
+			gameObject.GetComponent<Renderer> ().enabled = true;
+			gameObject.GetComponent<Rigidbody> ().useGravity = false;
 
 			//	lerpInterpolationBetweenTwoStates is a helper function I defined within the
 			//		ObjectState class. Feel free to give it a look!
@@ -67,29 +87,35 @@ public class TimeController : MonoBehaviour {
 			transform.position = interpolatedState.position;
 			transform.rotation = interpolatedState.rotation;
 
+			slowdown_t += 4f * Time.fixedDeltaTime;
+
+
 			//	Since we're generating the positions in between two Object States,
 			//		we need to make sure that we get rid of old Object States that
 			//		we've already used. In other words, after we've generated all
 			//		the transitions between Object State 1 and Object State 2, we 
 			//		need to delete Object State 1 so we don't use it again. 
-			pruneSampledObjectStates ();
+
+			pruneSampledObjectStatesByTime ();
 		} else {
+			gameObject.GetComponent<Rigidbody> ().useGravity = true;
 			stopRewind ();
 		}
 	}
 
-	private void pruneSampledObjectStates () {
-		if (keyFrameCounter > 0) {
-			keyFrameCounter--;
-		} else {
-			keyFrameCounter = keyframeSampleRate;
+	private void pruneSampledObjectStatesByTime ()
+	{
+		if (slowdown >= 1f) {
+			slowdown = 0;
+			slowdown_t = 0;
 			ObjectStates.RemoveAt (0);
 		}
 	}
 
-	public void sampleRecord () {
+	public void sampleRecord ()
+	{
 		if (keyFrameCounter < keyframeSampleRate) {
-				keyFrameCounter++;
+			keyFrameCounter++;
 		} else {
 			keyFrameCounter = 0;
 			record ();
@@ -104,31 +130,39 @@ public class TimeController : MonoBehaviour {
 		//		to complete the last frame including Physics. 
 		//		The result is some number that can be used to gauge how many 
 		//		ObjectStates we can have given our MaxRewindTime cap.
-		if (ObjectStates.Count > Mathf.Round(maxRewindTimeInSec / Time.fixedDeltaTime))
-		{
-			ObjectStates.RemoveAt(ObjectStates.Count - 1);
+		if (ObjectStates.Count > Mathf.Round (maxRewindTimeInSec / Time.fixedDeltaTime)) {
+			ObjectStates.RemoveAt (ObjectStates.Count - 1);
 		}
 
-		ObjectStates.Insert(0, new ObjectState(transform.position, transform.rotation));
+		ObjectState newState = new ObjectState (transform.position, transform.rotation);
+		if (ObjectStates.Count > 0) {
+			if (!ObjectStates [0].isEqualTo (newState)) {
+				ObjectStates.Insert (0, newState);
+			}
+		} else {
+			ObjectStates.Insert (0, newState);
+		}
 	}
 
-	public void startRewind ()
+	public void startRewind() {
+		startRewind (null, null);
+	}
+
+	public void stopRewind() {
+		stopRewind (null, null);
+	}
+
+	public void startRewind (GameObject game, BaseEventData eventData)
 	{
-		isRewinding = true;
+		if (!game) {
+			
+			isRewinding = true;
+		}
 	}
 
-	public void stopRewind ()
+	public void stopRewind (GameObject game, BaseEventData eventData)
 	{
 		isRewinding = false;
 	}
-
-	private void hasGvrClickTrigger ()
-	{
-		//need to update the data here otherwise we dont get mouse clicks; this is because we are 
-		//automatically creating the GVRSDK (seems like a bug)
-//		GvrViewer.Instance.UpdateState (); 
-//		if (GvrViewer.Instance.Triggered) {
-//			stateMachine.SetTrigger (AnimationName);
-//		}
-	}
+		
 }
