@@ -45,7 +45,7 @@ public class RandomPrims : MonoBehaviour
 		fling scriptOfGameObjectInstance = primitiveObject.AddComponent<fling> ();
 		scriptOfGameObjectInstance.main = primitiveObject;
 		scriptOfGameObjectInstance.rb = primitiveObject.GetComponent<Rigidbody> ();
-		scriptOfGameObjectInstance.vel = Random.Range (1000, 5000);
+		scriptOfGameObjectInstance.vel = Random.Range (2500, 5000);
 	}
 
 	void addEventTriggers (GameObject primitiveObject)
