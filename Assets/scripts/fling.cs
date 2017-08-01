@@ -10,11 +10,17 @@ public class fling : MonoBehaviour
 	public float vel;
 	public GameObject main;
 	public Rigidbody rb;
+    AudioSource ClickedSound;
 
 	// Use this for initialization
 	void Start ()
 	{
-	}
+
+     
+
+
+
+    }
         
 
 	// Update is called once per frame
@@ -31,7 +37,7 @@ public class fling : MonoBehaviour
 
 	public void Clicked (BaseEventData eventData)
 	{
-		Vector3 randomDirection = new Vector3 (Random.value, Random.value, Random.value);
+        Vector3 randomDirection = new Vector3 (Random.value, Random.value, Random.value);
 		rb.AddForce (randomDirection * vel);
 		rb.useGravity = true;
 		isClicked = true;
